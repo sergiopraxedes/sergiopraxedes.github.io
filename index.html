@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Uma Carta para Carla 💌</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:    #ec4899;
+      --pink-lt: #f9a8d4;
+      --dark:    #0f0a12;
+      --card:    #1a1025;
+      --border:  rgba(236,72,153,0.25);
+      --text:    #f1e8f5;
+      --muted:   #a78bbf;
+    }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--pink);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(110vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1rem 2.5rem;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 60%, rgba(236,72,153,0.18) 0%, transparent 70%);
+      border-radius: 2rem;
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: .75rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--pink-lt);
+      margin-bottom: .75rem;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 12vw, 5.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #f9a8d4 0%, #ec4899 50%, #c026d3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .hero-nick {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .hero-from {
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .hero-from span {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--pink-lt);
+      margin-top: .25rem;
+    }
+    .heart-divider {
+      margin: 1.5rem auto 0;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      justify-content: center;
+      color: var(--border);
+      font-size: 1.25rem;
+    }
+    .heart-divider::before,
+    .heart-divider::after {
+      content: '';
+      flex: 1;
+      max-width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 1.75rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(236,72,153,0.15);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    }
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: .6rem;
+      display: block;
+    }
+    .card-label {
+      font-size: .65rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: .5rem;
+      font-weight: 700;
+    }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--pink-lt);
+      margin-bottom: .9rem;
+    }
+    .card-text {
+      font-size: .97rem;
+      line-height: 1.8;
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    .message-card .card-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.9;
+    }
+    .message-card .card-text p + p { margin-top: .75rem; }
+
+    .photo-card img {
+      width: 100%;
+      border-radius: .75rem;
+      object-fit: cover;
+      max-height: 380px;
+      display: block;
+      margin-bottom: .75rem;
+      border: 1px solid var(--border);
+    }
+    .photo-caption {
+      font-size: .85rem;
+      color: var(--muted);
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* ── Spotify Embed ── */
+    .music-card .spotify-wrap {
+      margin-top: .75rem;
+      border-radius: .75rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 24px rgba(236,72,153,0.12);
+    }
+    .music-card .spotify-wrap iframe {
+      width: 100%;
+      height: 152px;
+      border: none;
+      display: block;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: .78rem;
+      color: var(--muted);
+      letter-spacing: .05em;
+    }
+
+    @keyframes pulse-heart {
+      0%, 100% { transform: scale(1); }
+      40%       { transform: scale(1.18); }
+      60%       { transform: scale(.92); }
+    }
+    .pulse { display: inline-block; animation: pulse-heart 1.6s ease-in-out infinite; }
+
+    @media (max-width: 480px) {
+      .card { padding: 1.25rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="particles" aria-hidden="true" id="particles"></div>
+
+<main class="page">
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-eyebrow">Uma web-carta feita com amor</p>
+    <h1 class="hero-name">Carla</h1>
+    <p class="hero-nick">"Mo"</p>
+    <p class="hero-from">
+      Com todo carinho,
+      <span>Zé</span>
+    </p>
+    <div class="heart-divider">
+      <span class="pulse">♥</span>
+    </div>
+  </header>
+
+  <!-- MENSAGEM -->
+  <article class="card message-card">
+    <span class="card-icon">💌</span>
+    <p class="card-label">Mensagem</p>
+    <div class="card-text">
+      <p>Eu te Amo de um jeito simples, sendo eu mesmo.</p>
+      <p>Você é meu aviso de lombada, minha memória, minha amiga, minha mulher!</p>
+      <p>Amo você desse jeito maluco, só não exagera haha!</p>
+    </div>
+  </article>
+
+  <!-- O QUE AMO -->
+  <article class="card">
+    <span class="card-icon">✨</span>
+    <p class="card-label">O que mais amo em você</p>
+    <h2 class="card-title">O que amo</h2>
+    <p class="card-text">
+      Aquele toque de loucurinha controlada, a atenção aos detalhes. Completa o que falta em mim, que no caso é muita coisa... haha.
+    </p>
+  </article>
+
+  <!-- NOSSA HISTÓRIA -->
+  <article class="card">
+    <span class="card-icon">📖</span>
+    <p class="card-label">Nossa História</p>
+    <h2 class="card-title">Como tudo começou</h2>
+    <p class="card-text">
+      Tivemos um começo turbulento, mas aos poucos vamos nos entendendo e nos ajustando um ao outro.
+    </p>
+  </article>
+
+  <!-- SONHOS -->
+  <article class="card">
+    <span class="card-icon">🌙</span>
+    <p class="card-label">Sonhos Juntos</p>
+    <h2 class="card-title">O que sonhamos</h2>
+    <p class="card-text">
+      Viajar, conhecer o mundo! Não ficar parado!
+    </p>
+  </article>
+
+  <!-- FOTO -->
+  <article class="card photo-card">
+    <span class="card-icon">📸</span>
+    <p class="card-label">Nossas Memórias</p>
+    <img
+      src="https://st2luvprodeastus001.blob.core.windows.net/gift-images/temp/5d849dbc-380b-4b01-b275-645ce868fc2a.webp"
+      alt="Foto do casal"
+      loading="lazy"
+      onerror="this.style.display='none'"
+    />
+    <p class="photo-caption">📅 O dia</p>
+  </article>
+
+  <!-- MÚSICA SPOTIFY -->
+  <article class="card music-card">
+    <span class="card-icon">🎵</span>
+    <p class="card-label">Nossa Música</p>
+    <div class="spotify-wrap">
+      <iframe
+        src="https://open.spotify.com/embed/track/1gVgkQFOKa8Wc1HYsJtPdH?utm_source=generator&theme=0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </article>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    Feito com <span class="pulse" style="color:var(--pink)">♥</span> por Zé para Carla
+  </footer>
+
+</main>
+
+<script>
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*14+8}s;
+      animation-delay:${Math.random()*12}s;
+      opacity:0;
+      filter:blur(${Math.random()>.5?'1px':'0px'});
+    `;
+    container.appendChild(p);
+  }
+</script>
+
+</body>
+</html>
